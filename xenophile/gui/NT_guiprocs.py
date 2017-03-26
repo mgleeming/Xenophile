@@ -14,7 +14,6 @@ sys.path.append(
 
 from xenophile.common import *
 import NT_search
-import NTPS_rangefinder as NTRF
 import xenophile.libs.non_targeted_PTM.non_targeted_PTM_identifier as NTPI
 
 from PyQt4 import QtCore, QtGui
@@ -174,7 +173,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		self.NTPS_frag_list.itemSelectionChanged.connect(lambda: self.update_structure_viewer(None))
 		self.NTPS_frag_list_up_button.clicked.connect(lambda: self.update_structure_viewer('up'))
 		self.NTPS_frag_list_down_button.clicked.connect(lambda: self.update_structure_viewer('down'))
-		self.NTPS_plot_tool.clicked.connect(self.launch_rangefinder)
 		self.NTPS_add_element_row.clicked.connect(self.ntps_AddElementRow)
 		self.NTPS_mod_comp_table.itemChanged.connect(self.ntps_updateMzBand)
 		self.NTPS_output_browse.clicked.connect(self.ntps_select_output)
@@ -974,113 +972,4 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		files = glob.glob('*.png')
 		for filei in files:
 			os.remove(filei)
-		return
-
-
-'''
-NTPS rangefinder tab
-'''
-class RangeFinder(QtGui.QDialog, NTRF.Ui_Dialog):
-	'''
-	NTPS popup window providing graphical selection of mz and RT ranges for NTPS
-	'''
-	def __init__(self, darkMode = True, parent = None):
-
-		# set PG config options
-		if not darkMode:
-			pg.setConfigOption('background','w')
-
-		super(RangeFinder, self).__init__(parent)
-		self.setupUi(self)
-		self.setWindowTitle('NTPS Range Finder')
-
-		self.make_dialog_connections()
-
-		# load range fields with default values
-		self.RT_range.setText('60')
-		self.mz_range.setText('2')
-		self.HT_threshold.setText('10')
-
-		# holding lists for HT and Mascot data
-		self.HT_data = []
-		self.Mascot_data = []
-
-		# define plot styles
-		self.RF_plot.showGrid(x = True, y = True)
-		self.RF_plot.showLabel('bottom', show = True)
-		#self.RF_plot.showLabel('top', show = True)
-		self.RF_plot.showLabel('left', show = True)
-		self.RF_plot.showLabel('right', show = True)
-		self.RF_plot.setLabel(axis = 'bottom', text = 'm/z')
-		self.RF_plot.setLabel(axis = 'left', text = 'Retention Time (s)')
-		self.RF_plot.setLabel(axis = 'top', text = '')
-		self.RF_plot.setLabel(axis = 'right', text = '')
-
-		# add ROI to plot
-		self.ROI = pg.ROI([0,0], [10,10], pen = 'b')
-		self.RF_plot.addItem(self.ROI)
-
-		## handles scaling vertically from opposite edge
-		self.ROI.addScaleHandle([0.5, 0], [0.5, 1])
-		self.ROI.addScaleHandle([0.5, 1], [0.5, 0])
-
-		## handles scaling both vertically and horizontally
-		self.ROI.addScaleHandle([1, 1], [0, 0])
-		self.ROI.addScaleHandle([0, 0], [1, 1])
-
-	def make_dialog_connections(self):
-		self.HT_input_button.clicked.connect(self.load_HT_file)
-		self.Mascot_input_button.clicked.connect(self.load_mascot_file)
-		self.RF_done.clicked.connect(self.done)
-		self.HT_show_checkbox.stateChanged.connect(self.update_plot)
-		self.Mascot_show_checkbox.stateChanged.connect(self.update_plot)
-		return
-
-	def load_HT_file(self):
-		HT_threshold = int(str(self.HT_threshold.text()))
-		self.HT_file = QtGui.QFileDialog.getOpenFileName(self, 'Select HiTIME File', self.fileOpenDialogPath)
-		headers, self.HT_data = read_hitime_files(self.HT_file)
-		self.update_plot()
-		return
-
-	def load_mascot_file(self):
-		self.Mascot_file = QtGui.QFileDialog.getOpenFileName(self, 'Select Mascot File', self.fileOpenDialogPath)
-		resfile = load_mascot_results(self.Mascot_file)
-		rt_data = get_rt_data(resfile)
-		peptides, var_mods = get_peptide_results(resfile, rt_data)
-		self.Mascot_data = peptides
-		self.update_plot()
-		return
-
-	def update_plot(self):
-		self.RF_plot.clear()
-		if len(self.HT_data) != 0:
-			ht_mz = [i.mz for i in self.HT_data]
-			ht_rt = [i.rt for i in self.HT_data]
-			self.RF_plot.plot(x = ht_mz, y = ht_rt, symbol = '+', pen = None, symbolBrush = 'r', symbolPen = 'r')
-
-		if len(self.Mascot_data) != 0:
-			ms_mz = [i.mz for i in self.Mascot_data]
-			ms_rt = [i.rt for i in self.Mascot_data]
-			self.RF_plot.plot(x = ms_mz, y = ms_rt, symbol = '+', pen = None, symbolBrush = 'b', symbolPen = 'b')
-
-		data = self.HT_data + self.Mascot_data
-		mz_data = [x.mz for x in data]
-		rt_data = [x.rt for x in data]
-		min_rt = min(rt_data)
-		min_mz = min(mz_data)
-
-		max_rt = max(rt_data)
-		max_mz = max(mz_data)
-		self.RF_plot.addItem(self.ROI)
-		self.ROI.setPos([min_mz * 1.2, min_rt * 1.2], [(max_mz-min_mz) * 0.5, (max_rt-min_rt) * 0.5])
-		return
-
-	def RF_done(self):
-		return
-
-	@staticmethod
-	def findRanges(self):
-		dialog = RangeFinder()
-		result = dialog.exec_()
 		return
