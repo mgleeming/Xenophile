@@ -629,19 +629,6 @@
                 </layout>
                </widget>
               </item>
-              <item row="2" column="2">
-               <widget class="QPushButton" name="NTPS_plot_tool">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Plotting Tool</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
            </layout>

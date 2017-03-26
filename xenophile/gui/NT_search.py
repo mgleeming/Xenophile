@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/NT_search.ui'
 #
-# Created: Mon Feb  6 19:55:54 2017
+# Created: Sun Mar 26 16:09:15 2017
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -368,14 +368,6 @@ class Ui_Dialog(object):
         self.gridLayout_29.addLayout(self.horizontalLayout_12, 1, 0, 1, 1)
         self.gridLayout_28.addLayout(self.gridLayout_29, 0, 0, 1, 1)
         self.gridLayout_20.addWidget(self.groupBox_9, 1, 2, 1, 1)
-        self.NTPS_plot_tool = QtGui.QPushButton(self.groupBox_21)
-        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.NTPS_plot_tool.sizePolicy().hasHeightForWidth())
-        self.NTPS_plot_tool.setSizePolicy(sizePolicy)
-        self.NTPS_plot_tool.setObjectName(_fromUtf8("NTPS_plot_tool"))
-        self.gridLayout_20.addWidget(self.NTPS_plot_tool, 2, 2, 1, 1)
         self.gridLayout_19.addLayout(self.gridLayout_20, 0, 0, 1, 1)
         self.gridLayout_30.addWidget(self.groupBox_21, 2, 0, 1, 1)
         self.NTPS_run = QtGui.QPushButton(self.tab)
@@ -682,7 +674,6 @@ class Ui_Dialog(object):
         self.groupBox_9.setTitle(_translate("Dialog", "Output", None))
         self.checkBox.setText(_translate("Dialog", "Write Log File", None))
         self.NTPS_output_browse.setText(_translate("Dialog", "Browse", None))
-        self.NTPS_plot_tool.setText(_translate("Dialog", "Plotting Tool", None))
         self.NTPS_run.setText(_translate("Dialog", "Run Analysis", None))
         self.NTPS_RV_accept_2.setTabText(self.NTPS_RV_accept_2.indexOf(self.tab), _translate("Dialog", "Non-targeted PTM search", None))
         self.groupBox_2.setTitle(_translate("Dialog", "Results Summary", None))
