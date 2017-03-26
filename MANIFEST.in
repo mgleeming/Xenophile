@@ -1,0 +1,2 @@
+recursive-include xenophile/libs/JSME/ *
+recursive-include xenophile/libs/mascotparser/ *

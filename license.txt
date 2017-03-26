@@ -1,0 +1,110 @@
+
+Xenophile - reactive metabolite adduct identification
+-------------------------------------------------------------------------
+Copyright (c) 2016
+Michael G. Leeming, William A. Donald, Richard A.J. O'Hair.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+JSME molecule editor - by Peter Ertl and Bruno Bienfait
+-------------------------------------------------------------------------
+Copyright (c) 2015, Novartis Institutes for BioMedical Research Inc and Bruno Bienfait
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the Novartis Institutes for BioMedical Research nor the
+      names of the authors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+JSME uses code from the following libraries:
+    - Apache Harmony -  Apache License v2.0  http://www.apache.org/licenses/
+    - gwt-mosaic     -  Apache License v2.0  http://www.apache.org/licenses/
+    - gwt-exporter   -  Apache License v2.0  http://www.apache.org/licenses/
+    - gwt            -  Apache License v2.0  http://www.apache.org/licenses/
+
+
+  Mascot Parser Licence Agreement
+  -------------------------------------------------------------------------
+  1. Definitions
+  Mascot Parser refers to a package that provides an Application Programmer Interface (API) to the Mascot result and configuration files. Mascot Parser includes source code, object libraries, header files, binary executables, scripts and documentation.
+  Matrix Science refers to Matrix Science Limited, the copyright holder of Mascot Parser.
+  You and your refers to any person who downloads, copies, uses, or distributes any part of Mascot Parser.
+  2. Licence
+  Matrix Science grants you a non-exclusive and non-transferable licence to use Mascot Parser for commercial and non-commercial purposes subject to the limitations described within this agreement.
+  You may incorporate the dynamically linked libraries, statically linked libraries and perl modules into your own software applications.
+  You may use and modify the source code that is identified in the documentation as sample code.
+  If you write a software application that uses Mascot Parser, you may distribute selected files from Mascot Parser as components of your application, subject to the following conditions:
+  You do not charge any form of licence fee for the application. Nominal charges for media and shipping are acceptable, but if you want to incorporate Mascot Parser into a commercial application, you cannot use this licence.
+  You include only those files from Mascot Parser that are strictly necessary to enable execution of your application. You may not redistribute other files from Mascot Parser, such as the documentation.
+  Your application must add substantial new and independent functionality to that of Mascot Parser. You must not expose individual Mascot Parser functions and interfaces as separately invokable entities
+  Your application must acknowledge the use of Mascot Parser on the splash screen or in the accompanying documentation.
+  There must be no suggestion that Matrix Science approves, endorses or promotes your application, and you may not use any Matrix Science logo or trademark outside the acknowledgement text and technical documentation.
+  3. Limitations
+  This licence does not entitle you to receive hard-copy documentation, technical support, telephone assistance, or enhancements or updates to Mascot Parser.
+  Except as expressly provided elsewhere in this agreement, you may not:
+  modify or create any derivative works of Mascot Parser;
+  decompile, disassemble, reverse engineer, or otherwise attempt to derive the source code for Mascot Parser (except to the extent applicable laws specifically prohibit such restriction);
+  redistribute, encumber, sell, rent, lease, sublicense, or otherwise transfer rights to Mascot Parser;
+  remove or alter any trademark, logo, copyright or other proprietary notices, legends, symbols or labels in Mascot Parser.
+  4. Termination
+  Matrix Science may terminate this Agreement at any time, for any reason or no reason. Matrix Science may also terminate this Agreement if you breach any of its terms and conditions. Upon termination, you shall destroy all copies of Mascot Parser.
+  5. Fees
+  There is no fee to use Mascot Parser under the terms of this licence.
+  6. Proprietary Rights
+  Title, ownership rights, and intellectual property rights in Mascot Parser shall remain in Matrix Science. Mascot Parser is protected by copyright and other intellectual property laws and by international treaties.
+  7. Disclaimer of Warranty
+  MASCOT PARSER IS PROVIDED FREE OF CHARGE, ON AN “AS IS” BASIS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE WARRANTIES THAT IT IS FREE OF DEFECTS, VIRUS FREE, ABLE TO OPERATE ON AN UNINTERRUPTED BASIS, MERCHANTABLE, FIT FOR A PARTICULAR PURPOSE OR NON-INFRINGING. THIS DISCLAIMER OF WARRANTY CONSTITUTES AN ESSENTIAL PART OF THIS AGREEMENT. NO USE OF MASCOT PARSER IS AUTHORIZED HEREUNDER EXCEPT UNDER THIS DISCLAIMER.
+  8. Limitation of Liability
+  TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL MATRIX SCIENCE OR ITS AFFILIATES OR SUPPLIERS BE LIABLE FOR ANY INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE MASCOT PARSER, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOST PROFITS, LOSS OF GOODWILL, WORK STOPPAGE, COMPUTER FAILURE OR MALFUNCTION, OR ANY AND ALL OTHER COMMERCIAL DAMAGES OR LOSSES, EVEN IF ADVISED OF THE POSSIBILITY THEREOF, AND REGARDLESS OF THE LEGAL OR EQUITABLE THEORY (CONTRACT, TORT OR OTHERWISE) UPON WHICH THE CLAIM IS BASED. IN ANY CASE, MATRIX SCIENCE’S COLLECTIVE LIABILITY UNDER ANY PROVISION OF THIS AGREEMENT SHALL NOT EXCEED IN THE AGGREGATE THE SUM OF THE FEES YOU PAID FOR THIS LICENCE (IF ANY). SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL, CONSEQUENTIAL OR SPECIAL DAMAGES, SO THIS EXCLUSION AND LIMITATION MAY NOT APPLY TO YOU.
+  9. Export Control
+  You agree to comply with all export laws and restrictions and regulations of the United Kingdom or foreign agencies or authorities, and not to export or re-export Mascot Parser or any direct product thereof in violation of any such restrictions, laws or regulations, or without all necessary approvals.
+  10. U.S. Government End-Users
+  Mascot Parser is a “commercial item,” as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of “commercial computer software” and “commercial computer software documentation,” as such terms are used in 48 C.F.R. 12.212 (Sept. 1995). Consistent with 48 C.F.R. 12.212 and 48 C.F.R. 227.7202-1 through 227.7202-4 (June 1995), all U.S. Government End-Users acquire Mascot Parser with only those rights set forth herein.
+  11. Miscellaneous
+  This Agreement constitutes the entire agreement between the parties concerning the subject matter hereof, and may be amended only by a written agreement signed by both parties. This Agreement shall be governed by the laws of England and Wales. All disputes relating to this Agreement are subject to the exclusive jurisdiction of the courts of England and Wales and you expressly consent to the exercise of personal jurisdiction in the courts of England and Wales in connection with any such dispute including any claim involving Matrix Science. This Agreement shall not be governed by the United Nations Convention on Contracts for the International
+  Sale of Goods. If any provision of this Agreement shall be held illegal or unenforceable by a court of competent jurisdiction, such provision shall be modified to the extent necessary to render it enforceable without losing its intent, or severed from this Agreement if no such modification is possible, and other provisions of this Agreement shall remain in full force and effect. A waiver by either party of any term or condition of this Agreement or any breach thereof, in any one instance, shall not waive such term or condition or any subsequent breach thereof. If any dispute arises under this Agreement, the prevailing party shall be reimbursed by the other party for any and all legal fees and costs associated therewith.
+  12. Contact details
+  If you have any questions about this agreement, write to us at Matrix Science Ltd., 64 Baker Street, London W1U 7GB, UK or call us at +44 20 7486 1050 or email us at info@matrixscience.com
