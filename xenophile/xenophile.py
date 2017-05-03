@@ -500,7 +500,7 @@ def postProcessHT(
 		print 'Error - mzDelta and mzML file needed to plot EICs'
 		return None
 
-	import xenophile.libs.hitime.HT_search_postprocessing as HSP
+	import libs.hitime.HT_search_postprocessing as HSP
 
 	args = {
 		'htIn' : htFile,
@@ -543,7 +543,7 @@ def subtractBackground(
 		print 'Error - specify treatment and control data arrays'
 		return None
 
-	import xenophile.libs.hitime.heatmap_subtraction as hmSub
+	import libs.hitime.heatmap_subtraction as hmSub
 
 	args = {
 		'inTreatment' : treatmentData,
@@ -572,7 +572,7 @@ def nonTargetedMetID(
 		print 'Error - one or more inputs are invalid'
 		return None
 
-	import xenophile.libs.non_targeted_PTM.non_targeted_PTM_identifier as NTPI
+	import libs.non_targeted_PTM.non_targeted_PTM_identifier as NTPI
 	'''
 	Note:
 	htInput is a nested list of filenames and charges
@@ -625,7 +625,7 @@ def targetedProtID(
 		print 'Error - one or more inputs are invalid'
 		return None
 
-	import xenophile.libs.targeted_PTM.targeted_PTM as TPM
+	import libs.targeted_PTM.targeted_PTM as TPM
 
 	args = {
 		'outputfile' : outputFile,
