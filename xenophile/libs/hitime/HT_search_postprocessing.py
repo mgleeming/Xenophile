@@ -177,6 +177,8 @@ def main(options):
 											scoreCutoff = options.scoreCutoff
 											)
 
+	print 'Finished reading HiTIME file'
+
 	# get local maxima for HT search if needed
 	if not options.peakList:
 		print 'Filtering Isotopes'

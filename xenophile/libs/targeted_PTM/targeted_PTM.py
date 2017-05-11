@@ -73,10 +73,6 @@ parser.add_argument('--mzGap',
 
 
 
-########################################################################################
-# CORRELATIOIN METHDOS																   @
-########################################################################################
-
 def infer_HT_hits(HT_data, target_charge):
 
 	inf_data = []
@@ -105,7 +101,6 @@ def correlate(options, peptides, HT_data, ofx):
 	NMD = options.mzDelta
 	width = options.eicWidth
 
-	# Result object holding list
 	results = []
 
 	# this should probably be a user variable
@@ -160,15 +155,6 @@ def correlate(options, peptides, HT_data, ofx):
 					HT_data_charge_heavy.append(heavy_ht_hit)
 
 					if debug: of1.write('%s, %s\n' %(datum.mz, datum.rt))
-
-					'''
-					NOTE:
-					--------------------------------------------------------------------
-					Divide HT hit by 60 here to convert to minutes:
-					Needed as rt is multiplied by 60 (min ---> s) in class __init__ function
-
-					This is a hack - need better way of handling rt units
-					'''
 
 		print 'HT_data_charge_light length: %s' %len(HT_data_charge_light)
 		print 'HT_data_charge_heavy length: %s' %len(HT_data_charge_heavy)
@@ -363,21 +349,16 @@ def get_MS2_and_nearest_MS1(results, options, ms2RTIndex):
 	count = 0
 	# match rt indicies to spectra and save to attribute
 
-	#outFile = open('spectra_stats.dat','wt')
 	for n, spectrum in enumerate(spectra):
 		time, mzs, ints, lvl = spectrum
 		count += 1
 		for res in results:
 			if res.nearest_ms1 == n:
-				# print 'Assigned MS1 spectrum to result rt: %s, mz: %s' %(res.pep_rt, res.pep_mz)
-				# print 'nearest_ms1 index: %s, n: %s' %(res.nearest_ms1, n)
 				res.PEP_MS_mz = mzs
 				res.PEP_MS_int = ints
 
 			elif res.pep_rt_index == n:
-				# print 'Assigned MS2 spectrum to result rt: %s, mz: %s' %(res.pep_rt, res.pep_mz)
-				# print 'pep_rt_index: %s, n: %s' %(res.pep_rt_index, n)
-				# print 'time: %s, len_mz: %s, len_int: %s' %(time, len(mzs), len(ints))
+
 				res.PEP_MS2_mz = mzs
 				res.PEP_MS2_int = ints
 

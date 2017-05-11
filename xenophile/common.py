@@ -149,7 +149,6 @@ class varMod (object):
         return (4 * '%s, ' %(self.modIndex, self.modName, self.modDelta, self.modNeutralLoss))
 
 def get_mods_from_mascot_file(filename):
-    ''' get mods from mascot results file '''
 
     print('\n\nAttempting to open Mascot file at: %s' %(filename))
 
@@ -287,56 +286,13 @@ def get_rt_from_rt_data(query, rt_data):
             return value
 
 def read_hitime_files(inFile, returnNp = False, **kwargs):
-    # get hitime file type
-    # options are:
-    #    - raw data python
-    #     - raw data cpp
-    #     - subtracted data
-    #     - validated hist from gui
-    #     - invalid
-
-    '''
-    raw data python
-        4 columns    - rt, mz, amp, score
-
-    raw data cpp
-        3 columns    - mz, rt, score
-
-    validated data
-        headers
-            - begin with '#'
-            -
-        data formatted as mz, rt, score
-
-    subtracted data
-        headers -
-
-
-    general approach
-    ----------------------------------
-
-    use numpy np.getfromtxt function
-        has arguments: delimiter, names (column names), skip_header .... + more
-
-
-    if headers encountered in first x lines
-        - use this infor to parameterise numpy matrix
-        - count number of header lines
-
-    read data into numpy array
-
-    sort by score
-
-    apply score cutoff
-
-    create hitime_hit objects if needed
-
-    '''
 
     htHeaders = dict()
 
     if '.mzML' in inFile:
-        print 'reading mzML file'
+    #    print 'reading mzML file'
+
+    # FIXME!!
 
         spectra = readSpectra(inFile)
 
@@ -362,13 +318,15 @@ def read_hitime_files(inFile, returnNp = False, **kwargs):
                                             formats = '<f8, <f8, <f8'
                                             )
     else:
-        print 'reading text file'
+    #   print 'reading text file'
+        print inFile
         f = open(str(inFile),'r')
         # count header rows
         headerRows = 0
         htHeaders = dict()
         while True:
             line = f.readline().strip()
+            #print line
 
             if line.startswith('#') and not line.startswith('##') and not line.startswith('#-'):
                 headerRows += 1 # parameter - value pair
@@ -378,6 +336,7 @@ def read_hitime_files(inFile, returnNp = False, **kwargs):
             elif line.startswith('#-'): headerRows += 1 # blank/info only line
 
             elif line.startswith('##'): # column header line
+                headerRows += 1
                 names = line.replace('##','').replace(' ','').split(',')
                 usecols = (0,1,2)
             else:
@@ -392,6 +351,7 @@ def read_hitime_files(inFile, returnNp = False, **kwargs):
 
             while True:
                 line = f.readline().strip()
+                print line
                 if line != '': break
 
             # get delimiter
@@ -473,10 +433,13 @@ def get_HT_regions(HT_data, Drt, Dmz, rtExclusion = 0, minScore = None):
 
     if Drt > 0 and Dmz > 0:
         for x in HT_data:
+            print x
             mz = x.mz
             rt = x.rt
+            print mz, rt, Drt, Dmz
             score = x.score
             coord = (rt-Drt, mz-Dmz, rt+Drt+rtExclusion, mz+Dmz)
+            print coord
             if idx.count(coord) == 0:
                 idx.insert(count, coord)
                 HT_regions.append(x)
@@ -663,9 +626,7 @@ def resolve_rt_targets_to_spectra(results, rtIndexArray = None, msLevel = None, 
     return results
 
 def readSpectra(mzml_file, msLevel = None):
-    '''
-    read MS_spectra from an mzML file of the given msLevel
-    '''
+
     import pymzml
 
     unit = geztTimeUnitsFromMZML(mzml_file)

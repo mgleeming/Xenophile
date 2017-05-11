@@ -11,13 +11,9 @@ import mzML_viewer as MZML_V
 import EIC_dialog as EIC_D
 from xenophile.common import *
 
-'''
-EIC_specification dialog box
-'''
+
 class EIC_dialog(QtGui.QDialog, EIC_D.Ui_Dialog):
-    '''
-    Data entry dialog for EIC called from mzML_view
-    '''
+
     def __init__(self, files, parent = None):
         super(EIC_dialog, self).__init__(parent)
         #self.setStyleSheet('font-size: 10pt; font-family: Sans Serif;')
@@ -63,17 +59,10 @@ class EIC_dialog(QtGui.QDialog, EIC_D.Ui_Dialog):
         target_files, width, targets, levels = dialog.returnValues()
         return (target_files, width, targets, levels, result == QtGui.QDialog.Accepted)
 
-'''
-mzML viewer
-'''
+
 class mzML_view (QtGui.QDialog, MZML_V.Ui_Dialog):
-    '''
-    mzML_view inherits from MZML_V.Ui_Dialog
-    '''
+
     def __init__(self, darkMode = True, parent = None):
-        '''
-        Initialise class and call __init__ from super classes
-        '''
 
         # Set PG plot background to white before GUI class init
         if not darkMode:
@@ -180,7 +169,6 @@ class mzML_view (QtGui.QDialog, MZML_V.Ui_Dialog):
         return
 
     def load_data(self):
-        ''' select data files and perform initial processing '''
 
         filenames = [str(QtGui.QFileDialog.getOpenFileName(self,
                                                             'Select mzML File',
@@ -589,9 +577,7 @@ class mzML_view (QtGui.QDialog, MZML_V.Ui_Dialog):
         return
 
     def readSpectra(self, mzml_file, msLevel, stopIter = None):
-        '''
-        read MS_spectra from an mzML file of the given msLevel
-        '''
+
         import pymzml
 
         msrun = pymzml.run.Reader(str(mzml_file))

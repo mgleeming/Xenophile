@@ -4,15 +4,11 @@ from gui import launch
 from PyQt4 import QtCore, QtGui
 from multiprocessing import Process, Queue
 
-'''
-GUI Dialog launch methods
-'''
+
 class LaunchDialog (QtGui.QDialog, launch.Ui_Dialog):
 
 	def __init__(self, parent = None, darkMode = False, runner = None):
-		'''
-		Initialise class and call __init__ from super classes
-		'''
+
 		super(LaunchDialog, self).__init__(parent)
 		self.setupUi(self)
 		self.setWindowTitle('Xenophile')
@@ -23,9 +19,7 @@ class LaunchDialog (QtGui.QDialog, launch.Ui_Dialog):
 		self.targeted_search_button.clicked.connect(lambda: launch_targeted_search(darkMode, runner))
 		return
 
-'''
-Dialog launch functions - called from splash screen
-'''
+
 def launch_non_targeted_search(darkMode, runner):
 	from gui.NT_guiprocs import NT_search
 	window = NT_search(darkMode = darkMode, runner = runner)
@@ -87,15 +81,6 @@ from rtree import index
 import matplotlib.pyplot as plt
 
 def read_hitime_files(inFile, returnNp = False, **kwargs):
-	'''
-	Open a HiTIME results file and extract data.
-	----------------------------------------------------------------
-	Input:
-		1) HiTIME file name
-
-	Return Value:
-		1) structured numpy array with fields: 'm/z', 'rt', 'score'
-	'''
 
 	htHeaders = dict()
 
@@ -422,13 +407,6 @@ def getEIC(data, mzML, mzDelta, mzTolerance = 0.03, msLevel = 1):
 	return results
 
 def __readSpectra(mzml_file, msLevel):
-	'''
-	Generator to stream data from mzML data file.
-	Input:
-		1) mzML data file name
-	Output:
-		2)
-	'''
 
 	msrun = pymzml.run.Reader(str(mzml_file))
 
@@ -469,12 +447,7 @@ def summariseEICs(result):
 	return
 
 def writeResults(data, outFile):
-	'''
-	Write data from numpy ndarray to data file
-	Input:
-		1) HiTIME results array
-		2) outFile name
-	'''
+
 	of1 = open(outFile,'r')
 	of1.write('# m/z, rt, score\n')
 	for r in range(data.shape[0]):
@@ -534,9 +507,6 @@ def subtractBackground(
 		1) Structured numpy array containing subtracted data points
 		   fields are: 'm/z', 'rt', 'score'
 
-	TODO:
-	-------------------
-	Need to modify heatmap subtraction script to return data if asked
 	'''
 
 	if not all((treatmentData, controlData, outputFile)):

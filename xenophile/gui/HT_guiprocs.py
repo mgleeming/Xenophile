@@ -11,18 +11,10 @@ from pyqtgraph.Point import Point
 import numpy as np
 from xenophile.common import *
 
-'''
-HT_search
-'''
+
 class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
-	'''
-	HT_search inherits from HT_search.Ui_Dialog
-	'''
+
 	def __init__(self, darkMode = True, parent = None, runner = None):
-		'''
-		Initialise class and call __init__ from super classes
-		'''
-		# TODO: Upgrade HT_search UI
 
 		# Set PG plot background to white before GUI class init
 		if not darkMode:
@@ -178,11 +170,7 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		self.EICtoggled()
 		self.fileOpenDialogPath = os.path.expanduser('~')
 
-	'''
-	CONNECTIONS AND FUNCTIONS FOR HITIME SEARCH TAB
-	'''
 	def HTS_gui_connections(self):
-		''' gui action connections for HiTIME search tab '''
 		self.HTS_load_input_files_button.clicked.connect(self.HTS_select_file)
 		self.HTS_run_HT_search.clicked.connect(self.HTS_run_HiTIME)
 		self.HTS_apply_params.clicked.connect(self.HTS_update_search_params)
@@ -204,7 +192,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		return
 
 	def HTS_select_file(self):
-		''' set argmuents of getOpenFileName to enable selection of multiple files'''
 		#self.lineEdit_2.setText(QtGui.QFileDialog.getOpenFileName())
 		HT_file = [QtGui.QFileDialog.getOpenFileName(self, 'Select HiTIME File', self.fileOpenDialogPath)]
 		self.fileOpenDialogPath = os.path.dirname(str(HT_file))
@@ -374,10 +361,7 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		return
 
 	def check_response(self):
-		'''
-		On timer tick - check response from NTPS
-			- if process returns done, load results into RV GUI tab
-		'''
+
 		while not self.q.empty():
 			update = self.q.get()
 			if update == 'done':
@@ -557,11 +541,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 
 	def plot_score_histogram(self, HT_data):
 
-		'''
-		Score histogram
-		--------------------------------------
-		'''
-
 		# TODO >> this is a mess > fixme please
 
 		# clear plots
@@ -607,9 +586,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		return
 
 	def run_data_postprocessing(self):
-		'''
-		Pull postprocessing input parameters and run script
-		'''
 
 		minScore = str(self.RP_min_HT_score.text())
 		Drt = str(self.RP_rtWidth.text())
@@ -624,10 +600,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		mzDelta = float(mzDelta) if mzDelta != '' else 0
 		eicWidth = float(eicWidth) if eicWidth != '' else 0.03
 		rtExclusion = float(rtExclusion if rtExclusion != '' else 0.00)
-
-		print 'options pulled from GUI'
-		print 'Dmz: ' + str(Dmz)
-		print 'Drt: ' + str(Drt)
 
 		args = {
 			'htIn' : str(self.RP_HT_file),
@@ -653,7 +625,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 	CONNECTIONS AND FUNCTIONS FOR HITIME RESULTS TAB
 	'''
 	def HT_RV_connections(self):
-		''' form GUI connections '''
 		self.HT_RV_load_results.clicked.connect(self.parse_HT_results_file)
 		self.HT_RV_hitlist.itemSelectionChanged.connect(lambda: self.HT_RV_update_plots(None))
 		self.HT_RV_accepted_list.itemSelectionChanged.connect(lambda: self.HT_RV_update_plots(None, acceptedHit = True))
@@ -696,7 +667,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 			return
 
 	def parse_HT_results_file(self):
-		''' Called when a file is selected with load results button '''
 
 		inFile = QtGui.QFileDialog.getOpenFileName(self,
 								'Specify Postprocessed HiTIME Reults File',
@@ -708,16 +678,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 
 		# run file parser
 		raw_HT_data, HT_hits, self.headers = HTS_FP.main(inFile)
-
-		# self.headers is a dictionary with keys:
-		# 'htFile'
-		# 'mzmlFile'
-		# 'mzWidth'
-		# 'rtWidth'
-		# 'scoreCutoff';
-		# 'mzDelta'
-		# 'eicWidth'
-		# 'mzML_time_unit'
 
 		# store results in class level variables
 		self.raw_data = raw_HT_data
@@ -762,12 +722,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 			1) up or down button is clicked, or
 			2) a new peptide entry is clicked in the results list
 			3) MS spectrum type is changed using radio buttons
-
-		Parameters:
-			direction:
-				'up' if up button clicked
-				'down' if down dubbon clicked
-				'None' if new entry clicked in results list
 		'''
 
 		if not acceptedHit:

@@ -55,15 +55,6 @@ class mgfData (object):
         return (13*'%s, ' %(self.index, self.title, self.mzMin, self.mzMax, self.intMin, self.intMax, self.numVals, self.numUsed, self.ms2mz, self.ms2int, self.rt, self.mz, self.charge))
 
 def get_mgf_data(resfiles, convertToMinutes = False):
-    '''
-    Retrieve MGF query data from mascot .dat file
-
-    inputs:
-        - list of absolute paths to mascot .dat files
-
-    Return value:
-        - list of mgfData objects
-    '''
 
     # for testing only - load 2 resfiles - one with mods and one without
     query_data = []
@@ -122,7 +113,6 @@ def check_residues(peptide, options):
 def filter_peptides(HT_hit, peptides, options):
     '''
     Find mascot peptides that are within defined mz and rt boundaries of a specified HT hit
-    --> Returns a list of mascotHit objects
     '''
     hth_mz = HT_hit.mz
     hth_rt = HT_hit.rt
@@ -193,7 +183,6 @@ def find_mgf_query(HT_hit, mgfdata, HT_ms2_mz_tol, HT_ms2_rt_tol):
 def remove_duplicates(peptides):
     '''
     Remove duplicate entries from Mascot peptide assignment data
-        - Entries considered duplicates if mz and rt values are identical
         - For each peptide that has been fragmented multiple times, pick entry with highest score
     '''
 
@@ -434,10 +423,6 @@ def similarity_score(expt_mz, expt_int, theoretical_peptide_set, options):
     '''
     Determine the correlation between the theoretical ion series
     (derived form mascot-assigned sequence) and the MS/MS spectrum of a HT hit
-
-    TODO
-    --------------------------------------------------------------------------
-        - Need to incorporate the rolling modification algorithm into scoring
     '''
 
     maxScore = 0
@@ -535,20 +520,12 @@ def make_formula_str_from_dict(fdict):
     return mf_string.strip() # remove trailing white space
 
 def get_possible_formula_masses(options):
-
     '''
     Calculate all possible molecular weights using allowed atom ranges and store in numpy array
 
     Return Value:
         1) NP array of formula mass values
         2) list of dicts corresponding to NP array indices
-
-
-    NOTES
-    -------------------------------------------------------------------------------------------
-    --> SO question on using mixed datatypes in numpy arrays:
-        http://stackoverflow.com/questions/24832715/numpy-array-matrix-of-mixed-types
-
     '''
 
     # data structure: values stored in numpy array, corresponding formulae stored in list
@@ -864,11 +841,7 @@ def main(options, q = None):
         if len(peptide_subset) == 0 : continue
 
         # find ms2 queries near HT hits
-        '''
-        NB - this will be a problem when MS1 and MS2 specs are acquired in different runs...
-                - in this case the rt of the HT hit will not necessarily line up with the rt of the
-                  corresponding MS2 trigger ion
-        '''
+
         nearest_mgf_query = find_mgf_query(
                                             ht_hit,
                                             mgfdata,
@@ -1027,10 +1000,7 @@ class Match(object):
         return ( 14 * '%s,' %(self.pep_sequence, self.pep_mz, self.pep_mod_str, self.ht_hit_mz, self.mod_mass, self.score, self.formulae, self.index, self.theor_mz, self.theor_int, self.expt_mz, self.expt_int, self.identity, self.homology, self.mascot_score, self.HT_score, self.modified_residue, self.modified_residue_index, self.delta_rt, self.ht_hit_rt, self.pep_rt))
 
 class GUIOptions(object):
-    '''
-    Create options class to be used when script is executed from the GUI
-        - attributes are identical to that of argument parser instantiated from the command line
-    '''
+
     def __init__(self, args):
         for k, v in args.iteritems():
             setattr(self, k, v)

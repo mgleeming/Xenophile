@@ -6,56 +6,11 @@ class hitime_hit (object):
 		self.rt = rt
 		self.amp = amp
 		self.score = score
-	
+
 	def __repr__(self):
 		return ( 4 * '%s, ' %(self.mz, self.rt, self.amp, self.score))
 
 def read_HT_data(inFile, returnNp = False, **kwargs):
-	# get hitime file type
-	# options are:
-	#	- raw data python
-	# 	- raw data cpp
-	# 	- subtracted data
-	# 	- validated hist from gui
-	# 	- invalid
-
-	'''
-	raw data python
-		4 columns	- rt, mz, amp, score
-
-	raw data cpp 
-		3 columns	- mz, rt, score
-
-	validated data
-		headers 
-			- begin with '#'
-			- 
-		data formatted as mz, rt, score
-
-	subtracted data
-		headers - 
-
-
-	general approach
-	----------------------------------
-
-	use numpy np.getfromtxt function
-		has arguments: delimiter, names (column names), skip_header .... + more
-
-
-	if headers encountered in first x lines
-		- use this infor to parameterise numpy matrix
-		- count number of header lines
-
-	read data into numpy array
-
-	sort by score
-
-	apply score cutoff
-
-	create hitime_hit objects if needed
-
-	'''
 
 	f = open(inFile,'r')
 
@@ -80,7 +35,7 @@ def read_HT_data(inFile, returnNp = False, **kwargs):
 	if headerRows == 0:
 		# raw data file
 		# - get raw data type
-		
+
 		while True:
 			line = f.readline().strip()
 			if line != '': break
@@ -88,7 +43,7 @@ def read_HT_data(inFile, returnNp = False, **kwargs):
 		# get delimiter
 		if ',' in line: delimiter = ','
 		else: delimiter = ' '
-		
+
 		data = [x for x in line.replace(',', ' ') if x != '']
 		if len(data) == 3:
 			htRawDataType = 'cpp'
@@ -119,9 +74,9 @@ def read_HT_data(inFile, returnNp = False, **kwargs):
 
 	# sort entries in order of score - highest first
 	npData = npData[npData['score'].argsort()[::-1]]
-	
+
 	# note:
-	# to sort lowest first 
+	# to sort lowest first
 	# npData[npData['score'].argsort()]
 
 	# return numpy array if requested
@@ -141,7 +96,7 @@ def read_HT_data(inFile, returnNp = False, **kwargs):
 
 		data.append(hit)
 
-	getLocalMax = kwargs.get('getLocalMax', None)	
+	getLocalMax = kwargs.get('getLocalMax', None)
 
 	if getLocalMax:
 		mzWidth = kwargs.get('mzWidth', None)

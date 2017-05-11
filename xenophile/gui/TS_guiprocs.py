@@ -11,17 +11,8 @@ import pyqtgraph as pg
 from PyQt4 import QtCore, QtGui
 from pyqtgraph.Point import Point
 
-'''
-Targeted search
-'''
-class T_search(QtGui.QDialog, T_search.Ui_Dialog):
-	'''
-	Targeted search methods and results viewer
-	-------------------------------------------------------
 
-	Notes:
-		1) for RV tab: indices of hit objects are 1 INDEXED while rows in TableWidgets are 0 INDEXED - be careful here
-	'''
+class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 
 	def __init__(self, darkMode = True, parent = None, runner = None):
 
@@ -139,10 +130,7 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def check_response(self):
-		'''
-		On timer tick - check response from NTPS
-			- if process returns done, load results into RV GUI tab
-		'''
+
 		while not self.q.empty():
 			update = self.q.get()
 			if update == 'done':
@@ -150,7 +138,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 				self.runner.p.terminate()
 				self.timer.stop()
 				self.runner_thread.exit()
-				print('\nResponse returned to guiprocs')
 			else:
 				print update
 		return
@@ -220,7 +207,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def get_mascot_mods(self, ifpath):
-		''' retrieve PTMs from mascot output file and add to tablewidget '''
 
 		# Get var mods ---> returns list of varMod objects.
 		# 	Attributes are: modIndex, modName, modDelta, modNeutralLoss
@@ -247,7 +233,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def add_highlighted_mod_to_CRM_list(self):
-		''' add modification highlighted in all mods table to CRM mods table '''
 		# get highlighted row
 		highlighted_row = self.T_all_mods.selectionModel().selectedRows()[0].row()
 
@@ -274,7 +259,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def remove_highlighted_mod_from_CRM_list(self):
-		''' remove highlighted row from CRM mods table '''
 		# get highlighted row
 		highlighted_row = self.T_CRM_mods.selectionModel().selectedRows()[0].row()
 		# remove row
@@ -298,7 +282,7 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def run_targeted_search(self):
-		print 'ts guiprocs run targeted: %s' % QtCore.QThread.currentThreadId()
+
 		# pull options from GUI
 		mascotInput = str(self.T_mascot_file.text())
 
@@ -381,16 +365,13 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def parse_results_file(self):
-		''' called when results file is loaded '''
 
-		print('parsing results file')
 		# need to spawn file selection panel to retrieve results files
 		# parse results file
 		inFile = QtGui.QFileDialog.getOpenFileName(self, 'Select Targeted Search Output File', self.fileOpenDialogPath)
 		self.fileOpenDialogPath = os.path.dirname(str(inFile))
 		self.mascot_hits, self.HT_data = RFP.run(ifile = inFile) # use testing file for the moment
 
-		print('finished parsing results file')
 		# set num rows in tableview widget
 		#self.RV_peptides.setRowCount(len(self.mascot_hits))
 
@@ -448,12 +429,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 			1) up or down button is clicked, or
 			2) a new peptide entry is clicked in the results list
 			3) MS spectrum type is changed using radio buttons
-
-		Parameters:
-			direction:
-				'up' if up button clicked
-				'down' if down dubbon clicked
-				'None' if new entry clicked in results list
 
 		'''
 
@@ -625,7 +600,7 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return clean_data
 
 	def add_peptide_to_accepted_list(self):
-		''' add selected peptide to accepted hits list '''
+
 		# get index of highlighted row
 		highlighted_row = self.RV_peptides.selectionModel().selectedRows()[0].row()
 		item = self.RV_peptides.item(highlighted_row, 0).text()
@@ -661,7 +636,6 @@ class T_search(QtGui.QDialog, T_search.Ui_Dialog):
 		return
 
 	def remove_peptide_from_accepted_list(self):
-		''' remove selected peptide to accepted hits list '''
 		# get highlighted row
 		highlighted_row = self.RV_accepted_peptides.selectionModel().selectedRows()[0].row()
 		# remove row

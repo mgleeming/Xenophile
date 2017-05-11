@@ -29,24 +29,8 @@ from pyteomics import mgf, pepxml, mass
 from pyteomics import mgf, pepxml, mass
 from multiprocessing import Process, Queue
 
-'''
-NTPS search tab
-'''
+
 class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
-	'''
-	Non-targeted search methods and results viewer
-	'''
-
-	'''
-	NOTES:
-
-	It seems that the m/z value determined by selecting local maxima of HT peaks is slightly inaccurate
-		- this introduces errors into the calculation of deltaMZ which is taken as the CRM mass
-		- As a workaround - find the MGF entry associated with the HT hit and use this m/z value which should be more accurate
-
-	For NTPS to work - HT hits must have an associated MS2 spectrum
-
-	'''
 
 	def __init__(self, darkMode = True, parent = None, runner = None):
 
@@ -153,11 +137,7 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		self.cleanup()
 
 	def set_tablewidget_column_geometries(self, widgets):
-		'''
-		set tablewidget row/column size properties
-			- sets resize row and column
-			- sets setStretchLastSection
-		'''
+
 		for item in widgets:
 			item.resizeRowsToContents()
 			item.resizeRowsToContents()
@@ -189,10 +169,7 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def NTPS_select_file(self, caller):
-		''' TODO - cleanup '''
-		'''
-		NOTE - default file open location is the APAP lumos data directory - MUST change this before publishing
-		'''
+
 		if caller == 'NTPS_HT_entry_button':
 			NTPS_HT_file = QtGui.QFileDialog.getOpenFileName(self, 'Select HiTIME File', self.fileOpenDialogPath)
 			self.fileOpenDialogPath = os.path.dirname(str(NTPS_HT_file))
@@ -209,9 +186,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def JSME_draw(self):
-		'''
-		Call JSME HTML file and load into webview widget
-		'''
 
 		path_to_JSME = os.path.normpath(
 							os.path.join(
@@ -238,9 +212,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 	# Interact with the HTML page by calling the completeAndReturnName
 	# function; print its return value to the console
 	def JSME_get_smiles(self):
-		'''
-		Get the SMILES string of the molecule entered into JSME on button click
-		'''
 		self.frame = self.view.page().mainFrame()
 		self.variant = self.frame.evaluateJavaScript('jsmeApplet.smiles();')
 		self.a = str(self.variant.toString())
@@ -248,11 +219,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def generate_fragemnts(self):
-		'''
-		Disconnect rotatable bond of SMILES specified molecule
-		Save fragments calculate formulae
-		Load fragments into structure viewer widget
-		'''
 
 		# Clear class level list
 		del self.molecule[:]
@@ -295,13 +261,12 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		# --> there's probably a better way to do this...
 		self.draw = 0
 		for i, self.smi in enumerate(self.all_smis):
-			print(i)
 			if i == 0:
 				struct_type = 'precursor'
 				img_path = 'precursor.png'
-				print(struct_type, img_path, self.smi)
+
 			else: struct_type, img_path = 'fragment', 'fragment_%s.png' %self.draw
-			print 'bgcolor'
+
 			self.molecule.append(cStructure(struct_type, self.smi, img_path))
 			self.template = Chem.MolFromSmiles(self.smi)
 			drawOptions = DrawingOptions()
@@ -327,9 +292,7 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def autocomplete_mod_properties(self):
-		'''
-		Estimate atom ranges and m/z boundaries for NTP search based on input molecule fragments
-		'''
+
 		data = element_ranges(self.molecule)
 
 		# add mz window data to mz band field
@@ -359,9 +322,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def update_structure_viewer(self, direction):
-		'''
-		Update structure shown on button click
-		'''
 		# NTPS_frag_list
 		# CC2C=C(C(=O)CN(C)c1c(F)cccc1F)COC2
 		row_index = self.NTPS_frag_list.currentRow()
@@ -384,9 +344,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def get_ion_types(self):
-		'''
-		Get sequence ion types to match
-		'''
 		ion_types = []
 		if self.NTPS_ion_types_a.isChecked() == True: ion_types.append('a')
 		if self.NTPS_ion_types_b.isChecked() == True: ion_types.append('b')
@@ -397,9 +354,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return tuple(ion_types)
 
 	def get_reactive_residues(self):
-		'''
-		Get allowed reactive residues
-		'''
 		react_res = []
 		if self.NTPS_reactive_residues_C.isChecked() == True: react_res.append('C')
 		if self.NTPS_reactive_residues_Y.isChecked() == True: react_res.append('Y')
@@ -464,13 +418,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def run_non_targeted_search(self):
-		'''
-		Pull non-targeted search parameters from gui and execute script
-
-		TODO - NEED A CHARGE STATE RANGE SPECIFICATION PARAMETER SOMEWHERE
-
-		'''
-
 		HT_in = self.ntps_htInputFile
 		HT_charge = int((self.NTPS_HT_file_charge.text()))
 		mascot_in = self.ntps_mascotInputFile
@@ -537,10 +484,7 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def check_response(self):
-		'''
-		On timer tick - check response from NTPS
-			- if process returns done, load results into RV GUI tab
-		'''
+
 		while not self.q.empty():
 			update = self.q.get()
 			if update[0] == 'done':
@@ -549,7 +493,7 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 				self.timer.stop()
 				self.runner_thread.exit()
 				self.load_RV_results(update)
-				print('\nResponse returned to guiprocs')
+
 			else:
 				print update
 		return
@@ -572,9 +516,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		return
 
 	def loadLocal(self):
-		'''
-		load a picled list of result objects printed from NTPS
-		'''
 		import pickle
 		NTPS_results_file = str(QtGui.QFileDialog.getOpenFileName(self, 'Select NTPS Results File', self.fileOpenDialogPath))
 
@@ -652,14 +593,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 		# write results to file
 		outFile = str(self.NTPS_output_file_field.text())
 		#self.write_results(self.hits, outFile)
-
-		'''
-		TODO:
-		-------------------------------------------------------
-		Move write results function and RME function
-		into NTPS script
-		'''
-
 
 		# load all hits into hit list
 		for i, hit in enumerate(self.hits):
@@ -771,11 +704,6 @@ class NT_search(QtGui.QDialog, NT_search.Ui_Dialog):
 			2) a new peptide entry is clicked in the results list
 			3) MS spectrum type is changed using radio buttons
 
-		Parameters:
-			direction:
-				'up' if up button clicked
-				'down' if down dubbon clicked
-				'None' if new entry clicked in results list
 		'''
 
 		# TODO
