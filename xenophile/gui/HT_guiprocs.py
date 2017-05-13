@@ -11,7 +11,6 @@ from pyqtgraph.Point import Point
 import numpy as np
 from xenophile.common import *
 
-
 class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 
 	def __init__(self, darkMode = True, parent = None, runner = None):
@@ -57,40 +56,8 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		self.HT_BS_score_cutoff.setText(str(self.ht_bs_scoreCutoff))
 
 		''' set plot config options '''
-		# HM
-		self.HT_RV_HM = pg.ScatterPlotItem()
-		# nb labels/gridlines are applied to the widget canvas
-		# rather than the scatterplotitem
-		self.HT_RV_HM_widget.showGrid(x = True, y = True)
-		self.HT_RV_HM_widget.showLabel('bottom', show = True)
-		self.HT_RV_HM_widget.showLabel('top', show = True)
-		self.HT_RV_HM_widget.showLabel('left', show = True)
-		self.HT_RV_HM_widget.showLabel('right', show = True)
-		self.HT_RV_HM_widget.setLabel(axis = 'bottom', text = 'm/z')
-		self.HT_RV_HM_widget.setLabel(axis = 'left', text = 'Retention Time (Min)')
-		self.HT_RV_HM_widget.setLabel(axis = 'top', text = '')
-		self.HT_RV_HM_widget.setLabel(axis = 'right', text = '')
-		self.HT_RV_HM_widget.addItem(self.HT_RV_HM)
 
-		# EIC
-		self.HT_RV_EIC.showGrid(x = True, y = True)
-		self.HT_RV_EIC.showLabel('bottom', show = True)
-		self.HT_RV_EIC.showLabel('left', show = True)
-		self.HT_RV_EIC.showLabel('right', show = True)
-		self.HT_RV_EIC.setLabel(axis = 'bottom', text = 'Retention Time (Min)')
-		self.HT_RV_EIC.setLabel(axis = 'left', text = 'Intensity')
-		self.HT_RV_EIC.setLabel(axis = 'top', text = '')
-		self.HT_RV_EIC.setLabel(axis = 'right', text = '')
-
-		# MS
-		self.HT_RV_MS.showGrid(x = True, y = True)
-		self.HT_RV_MS.showLabel('bottom', show = True)
-		self.HT_RV_MS.showLabel('left', show = True)
-		self.HT_RV_MS.showLabel('right', show = True)
-		self.HT_RV_MS.setLabel(axis = 'bottom', text = 'm/z')
-		self.HT_RV_MS.setLabel(axis = 'left', text = 'Intensity')
-		self.HT_RV_MS.setLabel(axis = 'top', text = '')
-		self.HT_RV_MS.setLabel(axis = 'right', text = '')
+                self.makeRVPlots()
 
 		''' set tablewidget geometries and selection behaviours '''
 		self.HT_RV_hitlist.resizeRowsToContents()
@@ -741,9 +708,12 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 			hitNumber = int(str(self.HT_RV_hitlist.item(highlighted_row, 0).text()))
 
 		else:
-			# item selected in accepted list
-			highlighted_row = self.HT_RV_accepted_list.selectionModel().selectedRows()[0].row()
-			hitNumber = int(str(self.HT_RV_accepted_list.item(highlighted_row, 0).text()))
+                        try:
+                            # item selected in accepted list
+			    highlighted_row = self.HT_RV_accepted_list.selectionModel().selectedRows()[0].row()
+			    hitNumber = int(str(self.HT_RV_accepted_list.item(highlighted_row, 0).text()))
+                        except:
+                            return
 
 		# get matching hit
 		hit = None
@@ -804,7 +774,8 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 
 		# plot heatmap
 		self.HT_RV_HM.clear()
-		self.HT_RV_HM.setData(x = self.HT_HMX, y = self.HT_HMY, pen = None, symbol = 'o', brush = 'b')
+
+                self.HT_RV_HM.setData(x = self.HT_HMX, y = self.HT_HMY, pen = None, symbol = 'o', brush = 'b')
 		self.HT_RV_HM.addPoints(x = [float(hit.mz)], y = [float(hit.rt)], symbol = 'o', brush = 'r')
 
 		return
@@ -904,7 +875,6 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 
 	def reset(self):
 		# clear contents of tablewidgets
-
 		# clear hit list
 		for i in reversed(range(self.HT_RV_hitlist.rowCount())):
 			self.HT_RV_hitlist.removeRow(i)
@@ -913,9 +883,50 @@ class HT_search (QtGui.QDialog, HT_search.Ui_Dialog):
 		for i in reversed(range(self.HT_RV_accepted_list.rowCount())):
 			self.HT_RV_accepted_list.removeRow(i)
 
-		# clear plots
-		self.HT_RV_HM.clear()
+		# clear plots)
+		self.HT_RV_HM_widget.clear()
 		self.HT_RV_MS.clear()
 		self.HT_RV_EIC.clear()
+		self.makeRVPlots()
+                return
 
-		return
+        def makeRVPlots(self):
+
+            # HM
+            self.HT_RV_HM = pg.ScatterPlotItem()
+            # nb labels/gridlines are applied to the widget canvas
+            # rather than the scatterplotitem
+            self.HT_RV_HM_widget.showGrid(x = True, y = True)
+            self.HT_RV_HM_widget.showLabel('bottom', show = True)
+            self.HT_RV_HM_widget.showLabel('top', show = True)
+            self.HT_RV_HM_widget.showLabel('left', show = True)
+            self.HT_RV_HM_widget.showLabel('right', show = True)
+            self.HT_RV_HM_widget.setLabel(axis = 'bottom', text = 'm/z')
+            self.HT_RV_HM_widget.setLabel(axis = 'left', text = 'Retention Time (Min)')
+            self.HT_RV_HM_widget.setLabel(axis = 'top', text = '')
+            self.HT_RV_HM_widget.setLabel(axis = 'right', text = '')
+            self.HT_RV_HM_widget.addItem(self.HT_RV_HM)
+
+            # EIC
+            self.HT_RV_EIC.showGrid(x = True, y = True)
+            self.HT_RV_EIC.showLabel('bottom', show = True)
+            self.HT_RV_EIC.showLabel('left', show = True)
+            self.HT_RV_EIC.showLabel('right', show = True)
+            self.HT_RV_EIC.setLabel(axis = 'bottom', text = 'Retention Time (Min)')
+            self.HT_RV_EIC.setLabel(axis = 'left', text = 'Intensity')
+            self.HT_RV_EIC.setLabel(axis = 'top', text = '')
+            self.HT_RV_EIC.setLabel(axis = 'right', text = '')
+
+            # MS
+            self.HT_RV_MS.showGrid(x = True, y = True)
+            self.HT_RV_MS.showLabel('bottom', show = True)
+            self.HT_RV_MS.showLabel('left', show = True)
+            self.HT_RV_MS.showLabel('right', show = True)
+            self.HT_RV_MS.setLabel(axis = 'bottom', text = 'm/z')
+            self.HT_RV_MS.setLabel(axis = 'left', text = 'Intensity')
+            self.HT_RV_MS.setLabel(axis = 'top', text = '')
+            self.HT_RV_MS.setLabel(axis = 'right', text = '')
+
+	    self.HT_RV_HM.sigClicked.connect(self.pointClicked)
+            return
+
