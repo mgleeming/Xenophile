@@ -236,8 +236,10 @@ def summarise(data):
 
 def getPercentile(data, X):
 	return np.percentile(data['score'], X)
+
 def getTopX(data, X):
 	return data[0:X]
+
 def removeLow(data, minScore):
 	return data[np.where(data['score'] > minScore)]
 
@@ -275,7 +277,7 @@ def showHeatMap(data, saveFig = False, figName = 'Figure1', dpi = 300):
 		fig.savefig(os.path.join(wd, '%s.png' %figName), dpi = dpi)
 	return
 
-def findPeaks(data, Drt = 0, Dmz = 0):
+def findPeaks(data, Drt = 30, Dmz = 5):
 	'''
 	Runs local maxima detection to select HiTIME peaks
 	Input:
@@ -296,11 +298,14 @@ def findPeaks(data, Drt = 0, Dmz = 0):
 	# check for an array
 	if not hasattr(data, '__len__'): return None
 
+	data  = data[data['score'].argsort()[::-1]]
+
 	filteredResults = []
 	idx = index.Index()
 	count = 0
 	if Drt > 0 and Dmz > 0:
 		for x in data:
+			score = x['score']
 			mz = x['mz']
 			rt = x['rt']
 			coord = (rt-Drt, mz-Dmz, rt+Drt, mz+Dmz)
@@ -308,8 +313,7 @@ def findPeaks(data, Drt = 0, Dmz = 0):
 				idx.insert(count, coord)
 				filteredResults.append(x)
 				count += 1
-
-	return np.array(data, dtype = [('mz', '<f8'), ('rt', '<f8'), ('score', '<f8')])
+	return np.array(filteredResults, dtype = [('mz', '<f8'), ('rt', '<f8'), ('score', '<f8')])
 
 class HtHit(object):
 	def __init__(self, mz, rt, score):
@@ -617,6 +621,42 @@ def targetedProtID(
     }
 
 	return TPM.params(None, args)
+
+def runHTSearch(
+				mzMLFile,
+				mzDelta = None, intensityRatio = 1,
+				mzWidth = 150, rtWidth = 17,
+				mzSigma = 1.5, rtSigma = 1.5,
+				logFile = False, fileFormat = 'mzml',
+				noScore = False, removeLow = False,
+				ppm = 4
+				):
+
+	if not all((mzMLFile, mzDelta)):
+		print 'Error - one or more inputs are invalid'
+		return None
+
+	import libs.hitime.hitime_methods as HTM
+	search_params = {}
+	search_params['inputFile'] = str(mzMLFile)
+	search_params['mzDelta'] = float(mzDelta)
+	search_params['intensityRatio'] = float(intensityRatio)
+	search_params['mzWidth'] = float(mzWidth)
+	search_params['rtWidth'] = float(rtWidth)
+	search_params['mzSigma'] = float(mzSigma)
+	search_params['rtSigma'] = float(rtSigma)
+	search_params['outputFile'] = str(mzMLFile.split('.')[0]+'.htout')
+	search_params['logFile'] = logFile
+	search_params['format'] = fileFormat
+	search_params['noScore'] = noScore
+	search_params['removeLow'] = removeLow
+	search_params['ppm'] = 4
+	search_params['outDir'] = False
+	search_params['minSample'] = rtSigma * rtWidth / 2.355
+
+	HTM.gui_init(None, [search_params])
+
+	return search_params['outputFile']
 
 
 if __name__ == '__main__':

@@ -278,7 +278,8 @@ def gui_init(q, args):
 		options = GuiOptions(arg)
 		main(MPI = None, options = options, queue = q)
 	time.sleep(1.5)
-	q.put('done')
+	if q:
+		q.put('done')
 	return
 
 if __name__ == '__main__':
