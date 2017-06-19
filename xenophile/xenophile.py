@@ -612,8 +612,9 @@ def targetedProtID(
 		'mzDelta' : mzDelta,
 		'eicWidth' : eicWidth,
 		'correlationRT': correlationRT,
-		'correlationMZ' : correlationMZ
-	}
+		'correlationMZ' : correlationMZ,
+                'convertToMins' : convertToMinutes
+    }
 
 	return TPM.params(None, args)
 

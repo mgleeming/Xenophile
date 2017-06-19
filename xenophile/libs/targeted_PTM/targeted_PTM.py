@@ -512,7 +512,7 @@ def main(options, guiMode = False, queue = None):
 	#rt_data = get_rt_data(resfile, convertToMinutes = True)
 
 	# get hitime input files
-	peptides, var_mods = get_peptide_results(resfile, convertToMinutes = False)
+	peptides, var_mods = get_peptide_results(resfile, convertToMinutes = options.convertToMins)
 
 	# run HT/peptide correlation
 	print 'Running correlation'
