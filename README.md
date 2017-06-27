@@ -19,7 +19,7 @@ sudo apt-get install python-setuptools python-dev build-essential automake autoc
 sudo apt-get install python-tk
 sudo pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 
-# pyteomics install
+# install pyteomics and pymzml
 sudo pip install lxml image pyteomics 
 
 # install RDkit
@@ -29,7 +29,7 @@ sudo apt-get install python-rdkit librdkit1 rdkit-data
 git clone https://github.com/libspatialindex/libspatialindex.git
 cd libspatialindex/
 ./autogen.sh
-./configure; make; make instal
+./configure; make; make install
 sudo apt-get install libspatialindex-dev
 ldconfig
 sudo pip install rtree
